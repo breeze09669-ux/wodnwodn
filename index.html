@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WKU Restaurant Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <a href="#" class="logo" onclick="app.goHome(event)">
+        WKU Guide
+      </a>
+      <div class="controls">
+        <select id="theme-select" onchange="app.changeTheme(this.value)">
+          <option value="light" data-i18n="theme_light">Light</option>
+          <option value="dark" data-i18n="theme_dark">Dark</option>
+          <option value="truetone" data-i18n="theme_truetone">True Tone</option>
+        </select>
+        <select id="lang-select" onchange="app.changeLanguage(this.value)">
+          <option value="ko">한국어</option>
+          <option value="en" selected>English</option>
+          <option value="uz">O'zbek (우즈벡)</option>
+          <option value="ur">اردو (우르두)</option>
+          <option value="mn">Монгол (몽골)</option>
+          <option value="ne">नेपाली (네팔)</option>
+          <option value="vi">Tiếng Việt (베트남)</option>
+          <option value="si">සිංහල (스리랑카)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Main View -->
+    <div id="main-view" class="view active">
+      
+      <!-- Banner Section -->
+      <section class="section-container" style="padding-top: 1rem; padding-bottom: 0; display: flex; flex-direction: column; gap: 0.8rem;">
+        
+        <!-- Top Row: Kiosk Master -->
+        <div style="background: #FF7B82; border-radius: 1.2rem; padding: 1.2rem 1.5rem; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 123, 130, 0.3);" onclick="app.goKioskTutorial()">
+          <div>
+            <h2 style="margin:0; font-size: 1.4rem; display: flex; align-items: center; gap: 0.5rem;">📱 Kiosk Master</h2>
+            <p style="margin: 0.3rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Practice like real!</p>
+          </div>
+          <div style="font-size: 2rem; animation: pulse 2s infinite;">👆</div>
+        </div>
+        
+        <!-- Bottom Row: Scripts & Translate -->
+        <div style="display: flex; gap: 0.8rem;">
+          <!-- Scripts -->
+          <div style="flex: 1; background: #00CA82; border-radius: 1.2rem; padding: 1.5rem 1rem; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 202, 130, 0.3); text-align: center;" onclick="app.openModal('scriptModal')">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🗣️</div>
+            <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">Scripts</div>
+            <div style="font-size: 0.85rem; font-weight: 600; opacity: 0.9;">Scripts</div>
+          </div>
+          
+          <!-- Google Translate -->
+          <a href="https://translate.google.com/" target="_blank" style="flex: 1; text-decoration: none; background: #6E9CFA; border-radius: 1.2rem; padding: 1.5rem 1rem; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(110, 156, 250, 0.3); text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌐</div>
+            <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.2rem;">Translator</div>
+            <div style="font-size: 0.85rem; font-weight: 600; opacity: 0.9;">Translate</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Top 3 Section -->
+      <section class="section-container" style="padding-bottom: 0;">
+        <h2 class="section-title">🔥 <span data-i18n="top3_title">This Week's Top 3</span></h2>
+        <div class="grid" id="top3-container" style="display:flex; overflow-x:auto; scrollbar-width:none; padding-bottom:1rem; gap:1rem;">
+          <!-- Top 3 injected here -->
+        </div>
+      </section>
+
+      <!-- Location Toggle -->
+      <section class="section-container" style="padding-top: 0; padding-bottom: 0;">
+        <div class="categories" id="location-filters" style="display: flex; gap: 0.5rem; justify-content: center;">
+          <button class="category-btn active" data-location="All" data-i18n="loc_all" onclick="app.changeLocation('All')">All</button>
+          <button class="category-btn" data-location="in-campus" data-i18n="loc_in_campus" onclick="app.changeLocation('in-campus')">In-campus</button>
+          <button class="category-btn" data-location="out-campus" data-i18n="loc_out_campus" onclick="app.changeLocation('out-campus')">Out-campus</button>
+        </div>
+      </section>
+
+      <!-- Categories & List -->
+      <section class="section-container">
+        <h2 class="section-title">🍽️ <span data-i18n="categories_title">Categories</span></h2>
+        <div class="categories" id="category-filters">
+          <button class="category-btn active" data-category="All" data-i18n="cat_all">All</button>
+          <button class="category-btn" data-category="Restaurant" data-i18n="cat_restaurant">Restaurant</button>
+          <button class="category-btn" data-category="Cafe" data-i18n="cat_cafe">Cafe</button>
+          <button class="category-btn" data-category="Others" data-i18n="cat_others">Others</button>
+        </div>
+        
+        <div class="grid" id="restaurants-grid">
+          <!-- Grid injected here -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Detail View -->
+    <div id="detail-view" class="view">
+      <div id="detail-content"></div>
+    </div>
+
+    <!-- Kiosk View -->
+    <div id="kiosk-view" class="view">
+      <div id="kiosk-content"></div>
+    </div>
+
+    <!-- Form View (Add/Edit) -->
+    <div id="add-view" class="view">
+      <div class="section-container">
+        <h2 class="section-title" id="form-title">➕ Add New Restaurant</h2>
+        <div style="background:var(--surface); padding:1.5rem; border-radius:var(--radius); box-shadow:var(--card-shadow);">
+          
+          <!-- URL 스크래퍼 UI 추가 -->
+          <div style="background: rgba(3, 199, 90, 0.05); padding: 1.2rem; border-radius: var(--radius); border: 2px dashed #03c75a; margin-bottom: 2rem;">
+            <label style="color: #03c75a; font-weight: 800; font-size: 1rem; display: block; margin-bottom: 0.5rem;">✨ 네이버 플레이스 자동 채우기 (AI)</label>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">네이버 플레이스의 <strong>가게 URL (또는 가게 이름)</strong>을 입력하면 AI가 해당 주소를 직접 타겟팅하여 전체 메뉴, 실제 사진, 영업시간 등을 가장 정확하게 긁어옵니다!</p>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <input type="text" id="scrape-url" class="form-control" placeholder="예: https://map.naver.com/... 또는 식당 이름" style="flex: 1; min-width: 200px;">
+              <button class="btn btn-primary" id="scrape-btn" style="background: #03c75a; border: none; white-space: nowrap; width: auto;" onclick="app.scrapeDataFromUrl()">✨ 네이버 정보 가져오기</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>가게 이름 (Restaurant Name)</label>
+            <input type="text" id="add-name" class="form-control" placeholder="예: 맛있는 식당">
+          </div>
+          
+          <div class="form-group">
+            <label>카테고리 (Category)</label>
+            <select id="add-category" class="form-control">
+              <option value="Restaurant">식당 (Restaurant)</option>
+              <option value="Cafe">카페 (Cafe)</option>
+              <option value="Others">기타 (Others)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>위치 (Location)</label>
+            <select id="add-location" class="form-control">
+              <option value="in-campus">교내 (In-campus)</option>
+              <option value="out-campus">교외 (Out-campus)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>상세 주소 (Address)</label>
+            <input type="text" id="add-address" class="form-control" placeholder="예: 전북 익산시 익산대로">
+          </div>
+
+          <div class="form-group">
+            <label>영업 시간 (Operating Hours)</label>
+            <input type="text" id="add-hours" class="form-control" placeholder="예: 10:00 - 22:00">
+          </div>
+
+          <div class="form-group">
+            <label>브레이크 타임 (Break Time)</label>
+            <input type="text" id="add-breaktime" class="form-control" placeholder="예: 15:00 - 17:00 (없으면 빈칸)">
+          </div>
+
+          <div class="form-group">
+            <label>네이버 지도 링크 (Naver Map URL)</label>
+            <input type="text" id="add-maplink-naver" class="form-control" placeholder="예: https://map.naver.com/...">
+          </div>
+
+          <div class="form-group">
+            <label>구글 지도 링크 (Google Map URL)</label>
+            <input type="text" id="add-maplink-google" class="form-control" placeholder="예: https://maps.google.com/...">
+          </div>
+
+          <!-- URL 직접 입력 기능 추가 -->
+          <div class="form-group">
+            <label>가게 대표 사진 (Cover Image)</label>
+            <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+              <input type="text" id="add-cover-url" class="form-control" placeholder="이미지 URL 주소 붙여넣기" onchange="app.handleImageUrl(this.value, 'cover-preview')">
+              <span style="display:flex; align-items:center; font-size:0.9rem; color:var(--text-secondary);">또는</span>
+              <input type="file" id="add-cover" class="form-control" accept="image/*" onchange="app.handleImageUpload(event, 'cover-preview', 'cover-ai-msg')" style="width: auto;">
+            </div>
+            <p id="cover-ai-msg" style="color:#03c75a; font-size:0.8rem; margin-top:0.3rem; display:none;">✨ AI가 실제 사진을 검색해 불러왔습니다. (URL이나 파일로 변경 가능)</p>
+            <img id="cover-preview" style="display:none; width:100%; height:150px; object-fit:cover; margin-top:0.5rem; border-radius:8px;">
+          </div>
+
+          <hr style="border:0; border-top:1px solid var(--border); margin:1.5rem 0;">
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 style="font-size:1.1rem; margin:0;">메뉴 등록 (Menu List)</h3>
+            <button class="btn btn-outline" style="padding: 0.3rem 0.6rem; font-size:0.8rem;" onclick="app.addMenuField()">+ 메뉴 추가</button>
+          </div>
+          
+          <div id="menu-list-container">
+            <!-- Menu items injected here -->
+          </div>
+
+          <button class="btn btn-primary" onclick="app.submitRestaurant()" style="margin-top:1.5rem;">저장하기 (Save)</button>
+          <button class="btn btn-outline" onclick="app.goHome()" style="width:100%; margin-top:0.5rem;">취소 (Cancel)</button>
+          <button id="delete-restaurant-btn" class="btn btn-outline" onclick="app.deleteRestaurant()" style="width:100%; margin-top:0.5rem; color:#ff4757; border-color:#ff4757; display:none;">🗑️ 가게 삭제 (Delete)</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Action Button -->
+  <button class="fab" onclick="app.openPasswordPrompt('add')">+</button>
+
+  <!-- Password Modal -->
+  <div class="modal-overlay" id="password-modal">
+    <div class="modal-content" style="max-width: 300px; text-align: center;">
+      <h2 style="margin-bottom: 1rem; font-size: 1.2rem;">관리자 비밀번호</h2>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;">권한 확인을 위해 비밀번호를 입력하세요.</p>
+      <input type="password" id="admin-password" class="form-control" style="text-align:center; letter-spacing: 0.5rem; margin-bottom: 1rem;" placeholder="****">
+      <p id="password-error" style="color: var(--primary); font-size: 0.85rem; margin-bottom: 1rem; display: none;">비밀번호가 틀렸습니다.</p>
+      <div style="display:flex; gap: 0.5rem;">
+        <button class="btn btn-outline" style="flex:1;" onclick="app.closePasswordPrompt()">취소</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="app.verifyPassword()">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Modal -->
+  <div class="modal-overlay" id="script-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="section-title" data-i18n="modal_title" style="margin:0;">Situation-based Scripts</h2>
+        <button class="close-btn" onclick="app.closeModal()">✕</button>
+      </div>
+      <p style="color:var(--text-secondary); margin-bottom:1rem; font-size:0.9rem;" data-i18n="modal_desc">Use these phrases to order and communicate easily.</p>
+      <button class="btn btn-primary" style="margin-bottom: 1rem;" onclick="app.startScriptQuiz()">🎓 대화 스크립트 퀴즈 시작 (Start Quiz)</button>
+      <div id="script-content">
+        <!-- Scripts injected here -->
+      </div>
+    </div>
+  </div>
+
+  <script src=data.js></script>
+<script src=app.js></script>
+</body>
+</html>

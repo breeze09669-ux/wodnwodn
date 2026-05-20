@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "esprima": "^4.0.1",
+    "iconv-lite": "^0.7.2"
+  }
+}
